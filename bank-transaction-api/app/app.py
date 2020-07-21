@@ -21,7 +21,20 @@ users = db['Users']
 functions
 '''
 def userExist(username):
-    return users.find({"username":username}[0]).count() != 0
+    return users.find({"Username":username}[0]).count() != 0
+
+def verifyPw(username,password):
+    if userExist(username):
+
+        hashedPw = users.find({'Username':username})[0]['Password'] 
+        
+    return hashedPw == bcrypt.hashpw(password.encode('utf8'),hashedPw)
+
+def generateRes(status,message):
+    return jsonify({
+        "status":status,
+        "message":message
+    })
 
 
 
@@ -36,8 +49,26 @@ resources
 class Register(Resource):
     def post(self):
         postedData = request.get_json()
-        username = postedData['username']
-        password = postedData['password']
+        username = postedData['Username']
+        password = postedData['Password']
+
+        if userExist(username):
+            return generateRes(301,"user already exists")
+
+
+        # create hashed password
+        hashedPw = bcrypt.hashpw(password.encode('utf8'),bcrypt.gensalt())
+
+        # now store the data
+        users.insert({
+            'Username':username,
+            'Password':hashedPw,
+            'Own':0,
+            'Debt':0
+        })
+        # return 200 ok and sign up message
+        return generateRes(200,"you successfuly signed up for the API")
+
         
 
 
