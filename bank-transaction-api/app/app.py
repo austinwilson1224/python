@@ -117,9 +117,26 @@ class Register(Resource):
 class Add(Resource):
     def post(self):
         postedData = request.get_json()
-        username = postedData['username']
-        password = postedData['password']
-        amount = postedData['amount']
+        username = postedData['Username']
+        password = postedData['Password']
+        money = postedData['Amount']
+
+        retJson, error = verifyCredentials(username,password)
+
+        if error:
+            return jsonify(retJson)
+
+        if money < 0:
+            return generateRes(304,"Money is less than 0")
+
+        cash = cashWithUser(username)
+        money -= 1
+
+        bank_cash = cashWithUser("BANK")
+        updateAccount("BANK",bank_cash + 1)
+        updateAccount(username, cash + money)
+
+        return generateRes(200, "Amount added successfully to account")
 
 
 # transfer money from one account to another
