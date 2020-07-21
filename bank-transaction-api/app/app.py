@@ -36,7 +36,46 @@ def generateRes(status,message):
         "message":message
     })
 
+def cashWithUser(username,password):
+    if verifyPw(username,password):
+        return users.find({
+            "Username":username
+        })[0]['Own']
 
+def debtWithUser(username,password):
+    if verifyPw(username,password):
+        return users.find({
+            "Username":username
+        })[0]['Debt']
+
+def verifyCredentials(username,password):
+    if not userExist(username):
+        return generateRes(301,"Invalid username"), True
+
+    correctPw = verifyPw(username,password)
+
+    if not correctPw:
+        return generateRes(302,"Incorrect password"), True 
+
+    return None, False
+
+def updateAccount(username, balance):
+    users.update({
+        "Username":username
+    },{
+        "$set"{
+            "Own":balance
+        }
+    })
+
+def updateDebt(username, balance):
+    users.update({
+        "Username":username
+    },{
+        "$set"{
+            "Debt":balance
+        }
+    })
 
 
 
