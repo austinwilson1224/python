@@ -169,6 +169,8 @@ class Transfer(Resource):
         updateAccount(to, cash_to + money - 1)
         updateAccount(username, cash_from - money) 
 
+        return generateRes(200,"transfer successful")
+
 
 # check the balance of an account 
 class CheckBalance(Resource):
@@ -177,6 +179,20 @@ class CheckBalance(Resource):
         username = postedData['username']
         password = postedData['password']
 
+        retJson, error = verifyCredentials(username,password)
+
+        if error:
+            return jsonify(retJson)
+        
+        retJson = users.find({
+            "Username": username
+        },{
+            "Password": 0,
+            "_id": 0
+        })[0]
+
+        return jsonify(retJson)
+
     
 
 class TakeLoan(Resource):
@@ -184,14 +200,37 @@ class TakeLoan(Resource):
         postedData = request.get_json()
         username = postedData['username']
         password = postedData['password']
-        amount = postedData['amount']
+        money = postedData['amount']
+
+
+        retJson, error = verifyCredentials(username,password)
+
+        if error:
+            return jsonify(retJson)
+
+        cash = cashWithUser(username)
+        debt = debtWithUser(username)
+        updateAccount(username, cash + money)
+        updateDebt(username, debt + money)
+
+        return generateRes(200, "Loan added  to your account")
 
 class PayLoan(Resource):
     def post(self):
         postedData = request.get_json()
         username = postedData['username']
         password = postedData['password']
-        amount = postedData['amount']
+        money = postedData['amount']
+
+        retJson, error = verifyCredentials(username,password)
+
+        if error:
+            return jsonify(retJson)
+
+        cash = cashWithUser(username)
+
+        if cash < money:
+            return generateRes(303,"Not enough cash in accound")
 
 
 
