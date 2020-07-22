@@ -232,6 +232,16 @@ class PayLoan(Resource):
         if cash < money:
             return generateRes(303,"Not enough cash in accound")
 
+        debt = debtWithUser(username0)
+
+        updateAccount(username, cash - money)
+        updateDebt(username, debt - money)
+
+
+        return generateRes(200,"You succussfully paid your loan")
+
+
+
 
 
 
@@ -240,7 +250,7 @@ class PayLoan(Resource):
 def hello():
     return "Hello world!"
 
-api.add_resource(Register,'register')
+api.add_resource(Register,'/register')
 api.add_resource(Add,'/add')
 api.add_resource(Transfer,'/transfer')
 api.add_resource(CheckBalance,'/balance')
