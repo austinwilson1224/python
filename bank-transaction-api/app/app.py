@@ -145,8 +145,29 @@ class Transfer(Resource):
         postedData = request.get_json()
         username = postedData['username']
         password = postedData['password']
-        to = postedData['to']
-        amount = postedData['amount']
+        to       = postedData['to']
+        money    = postedData['amount']
+
+        retJson, error = verifyCredentials(username,password)
+
+        if error:
+            return jsonify(retJson)
+
+        cash = cashWithUser(username)
+
+        if cash <= 0:
+            return generateRes(304,"you're out of money")
+
+        if not userExist(usernmae):
+            return generateRes(301, "Reciever does not exist")
+
+        cash_from = cashWithUser(username)
+        cash_to = cashWithUser(to)
+        bank_cash = cashWithUser("BANK")
+
+        updateAccount("BANK", bank_cash + 1)
+        updateAccount(to, cash_to + money - 1)
+        updateAccount(username, cash_from - money) 
 
 
 # check the balance of an account 
