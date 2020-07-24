@@ -21,7 +21,7 @@ users = db['Users']
 functions
 '''
 def userExist(username):
-    return users.find({"Username":username}[0]).count() != 0
+    return users.find({"Username":username}).count() != 0
 
 def verifyPw(username,password):
     if userExist(username):
@@ -36,17 +36,16 @@ def generateRes(status,message):
         "message":message
     })
 
-def cashWithUser(username,password):
-    if verifyPw(username,password):
-        return users.find({
-            "Username":username
-        })[0]['Own']
+def cashWithUser(username):
 
-def debtWithUser(username,password):
-    if verifyPw(username,password):
-        return users.find({
-            "Username":username
-        })[0]['Debt']
+    return users.find({
+        "Username":username
+    })[0]['Own']
+
+def debtWithUser(username):
+    return users.find({
+        "Username":username
+    })[0]['Debt']
 
 def verifyCredentials(username,password):
     if not userExist(username):
@@ -63,7 +62,7 @@ def updateAccount(username, balance):
     users.update({
         "Username":username
     },{
-        "$set"{
+        "$set":{
             "Own":balance
         }
     })
@@ -72,8 +71,8 @@ def updateDebt(username, balance):
     users.update({
         "Username":username
     },{
-        "$set"{
-            "Debt":balance
+        "$set":{
+            "Balance":balance
         }
     })
 
@@ -129,7 +128,7 @@ class Add(Resource):
         if money < 0:
             return generateRes(304,"Money is less than 0")
 
-        cash = cashWithUser(username)
+        cash = cashWithUser(username,password)
         money -= 1
 
         bank_cash = cashWithUser("BANK")
@@ -143,8 +142,8 @@ class Add(Resource):
 class Transfer(Resource):
     def post(self):
         postedData = request.get_json()
-        username = postedData['username']
-        password = postedData['password']
+        username = postedData['Username']
+        password = postedData['Password']
         to       = postedData['to']
         money    = postedData['amount']
 
@@ -158,7 +157,7 @@ class Transfer(Resource):
         if cash <= 0:
             return generateRes(304,"you're out of money")
 
-        if not userExist(usernmae):
+        if not userExist(username):
             return generateRes(301, "Reciever does not exist")
 
         cash_from = cashWithUser(username)
@@ -176,8 +175,8 @@ class Transfer(Resource):
 class CheckBalance(Resource):
     def post(self):
         postedData = request.get_json()
-        username = postedData['username']
-        password = postedData['password']
+        username = postedData['Username']
+        password = postedData['Password']
 
         retJson, error = verifyCredentials(username,password)
 
@@ -198,8 +197,8 @@ class CheckBalance(Resource):
 class TakeLoan(Resource):
     def post(self):
         postedData = request.get_json()
-        username = postedData['username']
-        password = postedData['password']
+        username = postedData['Username']
+        password = postedData['Password']
         money = postedData['amount']
 
 
@@ -232,7 +231,7 @@ class PayLoan(Resource):
         if cash < money:
             return generateRes(303,"Not enough cash in accound")
 
-        debt = debtWithUser(username0)
+        debt = debtWithUser(username)
 
         updateAccount(username, cash - money)
         updateDebt(username, debt - money)
