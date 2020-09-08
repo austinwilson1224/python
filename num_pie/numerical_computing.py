@@ -120,3 +120,41 @@ a.__getitem__(0)
 
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
+
+import numpy as np
+
+# fancy indexing
+a = np.arange(0, 80, 10)
+indicies = [1, 2, -3]
+y = a[indicies]
+y
+a[indicies] = 99
+a
+
+# indexing with booleans 
+mask = np.array([0,1,1,0,0,1,0,0], dtype=bool)
+y = a[mask]
+y
+
+
+
+
+a = np.array([-1,-3,1,4,-6,9,3])
+a<0
+
+negative = a < 0
+
+a[negative]
+a[negative] = 0
+
+a = np.arange(25).reshape(5,5)
+
+# blue elements
+a[[0,2,3,3],[2,3,1,4]]
+
+
+
+# all elements divisible by 3
+mask = a % 3 == 0
+mask
+a[mask]
