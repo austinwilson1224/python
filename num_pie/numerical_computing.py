@@ -158,3 +158,37 @@ a[[0,2,3,3],[2,3,1,4]]
 mask = a % 3 == 0
 mask
 a[mask]
+
+# nan
+
+np.nan
+
+# 
+a = np.arange(15).reshape(5,3)
+b = np.arange(3)
+
+a+b
+
+a = np.arange(3)
+b = np.arange(5).reshape(5,1)
+b
+
+a+b
+
+
+
+# sum
+a = np.array([[1,2,3],[4,5,6]])
+a.sum()
+a.sum(axis=0)
+a.sum(axis=-1)
+a.shape
+a.sum(axis=0).shape
+a.sum(axis=-1).shape
+np.sum(a, axis=0)
+np.min(a)
+np.max(a)
+a.min()
+a.max()
+
+# agrmin / argmax gives you the index of the element 
