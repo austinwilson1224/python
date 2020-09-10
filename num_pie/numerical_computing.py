@@ -192,3 +192,11 @@ a.min()
 a.max()
 
 # agrmin / argmax gives you the index of the element 
+import numpy as np
+a = np.array([-1,1,5,5])
+a == a.max()
+np.where(a==a.max())
+
+from numpy  import loadtxt
+data = loadtxt('/Users/austinwilson/downloads/Numpy-Tutorial-SciPyConf-2019-master/exercises/wind_statistics/wind.data')
+data
