@@ -86,6 +86,23 @@ mean
 
 # 3 by location
 # from index 3 on are each day  
+loc1_min = data[:,3].min()
+loc1_max = data[:,3].max()
+loc1_mean = data[:,3].mean()
+loc1_std = data[:,3].std()
+
+def get_summary(data, index):
+   min = data[:, index].min()
+   max = data[:, index].max()
+   mean = data[:, index].mean()
+   std = data[:, index].std()
+   return min, max, mean, std
+
+get_summary(data, 3)
+
+
+
+
 speeds = data[:,3:].copy()
 speeds.shape
 
