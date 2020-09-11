@@ -75,8 +75,14 @@ See :ref:`wind-statistics-solution`.
 import numpy as np
 from numpy import loadtxt
 data = np.loadtxt('/Users/austinwilson/downloads/Numpy-Tutorial-SciPyConf-2019-master/exercises/wind_statistics/wind.data')
+dates = data[:,:3]
+winds = data[:,3:]
 
 # 2 overall
+(winds.min())
+(winds.max())
+(winds.mean())
+(winds.std())
 min = data[:,3:].min()
 min
 max = data[:,3:].max()
@@ -90,6 +96,11 @@ loc1_min = data[:,3].min()
 loc1_max = data[:,3].max()
 loc1_mean = data[:,3].mean()
 loc1_std = data[:,3].std()
+
+winds.min(axis=0)
+winds.max(axis=0)
+winds.mean(axis=0)
+winds.std(axis=0)
 
 def get_summary(data, index):
    min = data[:, index].min()
@@ -116,6 +127,24 @@ day1 = speeds[:,0]
 for i in range(speeds.shape[1]): 
    print(i)
 
+
+# 4
+winds.min(axis=1)
+winds.max(axis=1)
+winds.mean(axis=1)
+winds.std(axis=1)
+
+# 5
+max_index = winds.argmax(axis=1)
+
+# 6 
+row, col = np.where(winds == winds.max())
+np.unravel_index(winds.argmax(), winds.shape)
+winds.max(axis=1).argmax()
+dates[row]
+
+# 7
+dates[dates[:,1] == 1].mean(axis=1)
 
 
 
