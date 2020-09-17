@@ -17,3 +17,46 @@ pew.melt(id_vars='religion', var_name="income", value_name="count")
 billboard = pd.read_csv(path+'billboard.csv')
 billboard.head()
 billboard.melt(id_vars=['year','artist','track','time','date.entered'], var_name="rank", value_name="week")
+
+(billboard.melt(id_vars=['year','artist','track','time','date.entered'], var_name="rank", value_name="week").groupby('artist').mean())
+
+# doesn't work idk why
+(billboard.melt(id_vars=['year','artist','track','time','date.entered'], var_name="rank", value_name="week").groupby('artist')['rank'].mean())
+
+ebola = pd.read_csv(path+'country_timeseries.csv')
+ebola.head(15)
+ebola.tail(15)
+
+ebola_long = ebola.melt(id_vars = ["Date", "Day"], 
+                        var_name = 'cd_country',
+                        value_name = 'count')
+ebola_long.head()
+
+
+# to split up  a value by an underscore
+'hello_world'.split('_')[0]
+
+# take out cases or  deaths from cd_country
+#  can use .str to get access to string methods
+# can use .cat to access categorical things 
+ebola_split = ebola_long['cd_country'].str.split('_', expand=True)
+ebola_split
+
+
+ebola_long[["status", "country"]] = ebola_split
+ebola_long.head()
+
+
+ebola_long["test"] = 1
+ebola_long.head()
+# ebola_long["cd_country"] = str(ebola_long["cd_country"]).split('_')[0]
+ebola_long["cd_country"].unique()
+
+
+
+# weather data set 
+weather = pd.read_csv(path+'weather.csv')
+
+weather.head()
+
+
