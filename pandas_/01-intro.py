@@ -90,4 +90,19 @@ df.groupby(['year','continent'])[['lifeExp','gdpPercap']].agg(np.mean).reset_ind
 df.groupby(['continent','year'])[['lifeExp','gdpPercap']].agg(np.mean).reset_index()
 
 ## tips exercise
-tips = pd.read_csv(path+'tips')
+import seaborn as sns
+tips = sns.load_dataset('tips')
+tips.head()
+
+
+# filter rows by smoker == 'No' and total_bill >= 10
+filter1 = tips[(tips['smoker'] == 'No') & (tips['total_bill'] >= 10)]
+
+test = tips[(tips.smoker == 'No') & (tips.total_bill >= 20)]
+test
+
+# average total_bill for each value of smoker, day and time 
+tips.groupby(['smoker']).agg(np.mean)
+tips.groupby(['day']).mean()
+tips.groupby(['time']).mean()
+tips.groupby(['smoker', 'day', 'time'])['total_bill'].mean()
