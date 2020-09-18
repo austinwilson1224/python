@@ -37,3 +37,22 @@ array
 array = np.arange(10)
 array
 array.reshape(2,-1)
+
+# 8. stack to arrays vertically
+a = np.arange(10).reshape(2,-1)
+b = np.repeat(1,10).reshape(2,-1)
+a
+b
+c = np.vstack((a,b)) # v is for vertical stack 
+c
+
+# 9. stack to arrays horizontally
+c = np.hstack((a,b))
+c
+
+# 10. custom sequences
+# [1, 1, 1, 2, 2, 2, 3, 3, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
+a = np.array([1,2,3])
+
+np.repeat(a,3, axis=0)
+np.hstack((np.repeat(a,3),a,a,a))
