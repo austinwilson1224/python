@@ -56,3 +56,14 @@ a = np.array([1,2,3])
 
 np.repeat(a,3, axis=0)
 np.hstack((np.repeat(a,3),a,a,a))
+
+# 11. get common items between two arrays
+a = np.array([1,2,3,2,3,4,3,4,5,6])
+b = np.array([7,2,10,2,7,4,9,4,9,8])
+np.unique(a[a==b])
+a[a==b]
+
+# 12. from array a remove items present in array b
+a = np.array([1,2,3,4,5])
+b = np.array([5,6,7,8,9])
+a[~np.isin(a,b)]
