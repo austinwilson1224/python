@@ -67,3 +67,101 @@ a[a==b]
 a = np.array([1,2,3,4,5])
 b = np.array([5,6,7,8,9])
 a[~np.isin(a,b)]
+
+# 13. Get the positions where elements of a and b match
+
+# Input
+print("Input")
+a = np.array([1,2,3,2,3,4,3,4,5,6])
+b = np.array([7,2,10,2,7,4,9,4,9,8])
+a
+b
+
+# Desired Output
+# > (array([1, 3, 5, 7]),)
+np.where(a==b)
+
+
+# 14. # Q. Get all items between 5 and 10 from a.
+
+# Input
+print("Input")
+a = np.array([2, 6, 1, 9, 10, 3, 27])
+a
+
+# Desired Output
+# (array([6, 9, 10]),)
+((a > 6) & (a  < 11))
+a[(a >= 6) & (a <  11)]
+
+# 15. # Q. Convert the function maxx that works on two scalars, to work on two arrays.
+
+# Input
+
+def maxx(x, y):
+    """
+    Get the maximum of two items
+    """
+    
+    if x >= y:
+        return x
+    else:
+        return y
+print("Result of the maxx function")
+maxx(1, 5)
+
+print("Input")
+a = np.array([5, 7, 9, 8, 6, 4, 5])
+b = np.array([6, 3, 4, 8, 9, 7, 1])
+a
+b
+
+# Desired Output
+# pair_max(a, b)
+#> array([ 6.,  7.,  9.,  8.,  9.,  7.,  5.])
+
+
+# 16 
+arr = np.arange(9).reshape(3,3)
+arr
+
+# swap rows
+temp = arr[0,].copy()
+arr[0] = arr[1].copy()
+arr[1] = temp
+arr
+
+# swap columns 
+arr = np.arange(9).reshape(3,3)
+temp = arr[:,0].copy()
+arr[:,0] = arr[:,1].copy()
+arr[:,1] = temp
+arr 
+
+# 17 
+# swap rows
+arr = np.arange(9).reshape(3,3)
+temp = arr[0,:].copy()
+temp
+arr[0,:], arr[1,:] = arr[1,:], temp
+arr
+
+# 18. reverse rows of 2d array
+array = np.arange(9).reshape(3,3)
+# rows
+array[::-1,:]
+np.flip(array, axis = 0)
+
+
+# 29. reverse columns of a 2d array
+array[:,::-1]
+np.flip(array, axis = 2)
+
+
+# 20. create a 2d array of random floats between  5 and 10 shape 5X3
+
+np.random.random_integers(5,10,15) 
+
+random_floats = np.random.uniform(5,11,15).reshape(5,3)
+
+
