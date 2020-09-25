@@ -1,6 +1,7 @@
 import numpy as np 
 
 
+
 # arrays challenge 1
 def arrays(arr):
     result = np.array(arr, float)[::-1]
@@ -55,3 +56,22 @@ for i in range(rows):
     l.append(user_input)
 
 arr = np.array(l,int).reshape(rows,cols)
+
+
+# zeros and ones
+
+user_input = input().strip().split(' ')
+array_shape = np.array(user_input, dtype=np.int)
+
+print(np.zeros(shape=array_shape, dtype=int))
+print(np.ones(shape=array_shape, dtype=int))
+
+
+# identity -- some problem with test cases where the numeric values are actually strings with leading  whitespace 
+user_input = np.array(input().strip().split(' '), dtype=np.int)
+array = np.eye(user_input[0],user_input[1],k=0)
+array = str(np.eye(user_input[0],user_input[1],k=0)).replace('1', ' 1').replace('0', ' 0')
+
+print(array)
+
+
