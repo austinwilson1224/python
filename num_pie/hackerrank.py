@@ -110,3 +110,33 @@ max
 
 # 1 2 
 # 3 4 
+
+
+
+# mean, var and std 
+
+
+dimension = input().split(' ') # 4 2 so we have 4 rows and 2 columns 
+rows = int(dimension[0])
+cols = int(dimension[1])
+rows
+cols
+
+
+# alternative for input
+rows, cols = map(int,input().split(' '))
+
+
+the_list = []
+
+for i in range(rows):
+    user_input = input().split(' ')
+    the_list.append(user_input)
+
+
+
+array = np.array(the_list,int)
+np.set_printoptions(legacy='1.13') # to fix error
+print(np.mean(array,axis = 1))
+print(np.var(array,axis = 0))
+print(np.std(array))
