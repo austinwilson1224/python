@@ -75,3 +75,38 @@ array = str(np.eye(user_input[0],user_input[1],k=0)).replace('1', ' 1').replace(
 print(array)
 
 
+# min/max
+import numpy
+print(numpy.max(numpy.min(numpy.array([input().split() 
+     for _ in range(int(input().split()[0]))],int),axis=1)))
+
+dimension = input().split(' ') # 4 2 so we have 4 rows and 2 columns 
+rows = int(dimension[0])
+cols = int(dimension[1])
+rows
+cols
+
+
+the_list = []
+
+for i in range(rows):
+    user_input = input().split(' ')
+    # print(i)
+    the_list.append(user_input)
+    print(the_list)
+
+
+
+
+the_list
+
+array = np.array(the_list, dtype=int).reshape(rows,cols)
+
+min = np.min(array,axis=1)
+min
+max = np.max(min)
+max
+
+
+# 1 2 
+# 3 4 
