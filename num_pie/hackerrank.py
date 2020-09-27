@@ -140,3 +140,35 @@ np.set_printoptions(legacy='1.13') # to fix error
 print(np.mean(array,axis = 1))
 print(np.var(array,axis = 0))
 print(np.std(array))
+
+
+# array mathematics
+
+rows, cols = map(int,input().split(' '))
+
+
+a = []
+for i in range(rows):
+    a.append(input().split(' '))
+
+
+b = []
+for i in range(rows):
+    b.append(input().split(' '))
+
+
+
+
+a = np.array(a,int).reshape(rows,cols)
+b = np.array(b,int).reshape(rows,cols)
+
+print(a + b)
+print(a - b)
+print( a * b)
+print(a // b)
+print(a % b)
+print(a ** b)
+
+
+
+  
