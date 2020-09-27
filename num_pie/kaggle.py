@@ -1,3 +1,7 @@
+'''
+problems selected from: https://www.kaggle.com/python10pm/learn-numpy-the-hard-way-70-exercises-solutions
+'''
+
 # 1. import numpy and see vertion number
 import  numpy as np 
 np.__version__
@@ -163,5 +167,43 @@ np.flip(array, axis = 2)
 np.random.random_integers(5,10,15) 
 
 random_floats = np.random.uniform(5,11,15).reshape(5,3)
+
+# 21. how to print only 3 decimal places in a python numpy array 
+a = np.array([1.23455,121.111111], dtype=np.float)
+a.round(decimals=3)
+b = np.random.uniform(5, 10, 15).reshape(5,3)
+b = b.round(3)
+
+# set print options instead of rounding 
+np.set_printoptions(precision=3)
+np.random.uniform(0,10,3)
+
+# default print options 
+np.set_printoptions(edgeitems=3,infstr='inf', linewidth=75, nanstr='nan', precision=8, suppress=False, threshold=1000, formatter=None)
+
+
+# 22. how to supress scientific notation
+
+random_array = np.random.random([3,3])/1e3
+random_array
+np.set_printoptions(suppress=True)
+random_array
+
+
+# 23. how to limit the number of options printed
+array = np.arange(15)
+array
+np.set_printoptions(threshold=10)
+array
+
+
+# 24. print full array without truncating 
+a = np.arange(20)
+np.set_printoptions(threshold=6)
+
+a
+np.set_printoptions(threshold=len(a))
+a
+
 
 
