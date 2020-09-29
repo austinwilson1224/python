@@ -59,4 +59,26 @@ weather = pd.read_csv(path+'weather.csv')
 
 weather.head()
 
+weather_long = weather.melt(id_vars=['id','year','month','element'], var_name=['day'],value_name='temp')
+weather_long.head()
+weather_long.shape
+
+(weather_long.pivot_table(index=['id','year','month','day'],columns='element',values='temp').reset_index())
+
+1_000_000 # same as 1000000
+
+[1,2,3,] # can have a trailing comma in lists
+
+tbl1 = pd.read_csv(path+"table1.csv")
+tbl2 = pd.read_csv(path+"table2.csv")
+tbl3 = pd.read_csv(path+"table3.csv")
+tbl1
+tbl2
+
+tbl2.pivot_table(index=["country","year"],columns="type",values="count").reset_index()
+
+tbl3
+tbl3['rate'].str.split('/').str.get(1)
+
+
 
