@@ -1,5 +1,6 @@
 import pandas as pd 
 import numpy as np 
+path = '/Users/austinwilson/coding/scipy-2019-pandas/data/'
 
 
 def my_function(x,y):
@@ -75,3 +76,53 @@ avg_2_mod(df['a'],df['b'])
 avg_2_mod_vec = np.vectorize(avg_2_mod)
 
 avg_2_mod_vec(df['a'],df['b'])
+
+
+# in order to vectorize a function use @np.vertorize
+@np.vectorize
+def avg_2_mod1(x,y):
+    if x == 20:
+        return np.NaN
+    else:
+        return (x + y) / 2
+
+avg_2_mod(df['a'],df['b'])
+
+
+import numba 
+
+@numba.vectorize
+def avg_2_mod_numba(x,y):
+    if x == 20:
+        return np.NaN
+    else:
+        return (x + y) / 2
+
+avg_2_mod_numba(df['a'].values,df['b'].values)
+
+# timeit
+avg_2(df['a'], df['b'])
+
+
+
+
+
+
+tbl3 = pd.read_csv(path+'table3.csv')
+tbl3
+
+
+tbl3.dtypes
+
+def extract_population(rate, delim='/', position=1):
+    pop = rate.split(delim)[position]
+    return int(pop)
+
+assert extract_population('123/456') == 456
+
+pops = tbl3['rate'].apply(extract_population)
+
+tbl3['pop'] = pops
+tbl3['pop2'] = tbl3['rate'].apply(extract_population)
+
+# stopped at 2:13:09
