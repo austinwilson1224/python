@@ -1,5 +1,6 @@
 import urllib.request
 from urllib import request
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -8,7 +9,7 @@ url2 = "https://www.blowoutcards.com/sports-cards/basketball-cards/2020-21/2020-
 
 
 
-
+t = requests.get(url2)
 
 
 test_url = "https://www.blowoutcards.com"
