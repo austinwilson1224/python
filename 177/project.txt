@@ -1,0 +1,64 @@
+In this project, you will practice applying the k-means clustering algorithm on a real dataset.  
+You may work with one partner, but it is not required.  Individually turn in a google colab with both partners' names.
+
+ 
+
+One common case for clustering is to find subgroups among clients of a business. 
+By taking a handful of variables like reliability of payments, purchase history, etc., 
+you can find clusters of similar users within all your clients where each cluster represents an average user from that cluster. 
+From there, a business can tailor their work from advertisements to loan approvals cluster to cluster with improved results.
+
+ 
+
+Before starting: download the MovieLens 20M dataset found here: https://www.kaggle.com/grouplens/movielens-20m-dataset 
+(Links to an external site.). It is quite large, so be prepared for that. 
+The files you will actually need to do this assignment are movie.csv and rating.csv, the rest are ignorable.
+
+ 
+
+Your goal: Find subgroups of movie watchers using the dataset and k-means clustering, and make some conclusions
+
+ 
+
+Pick out 2 genres to focus on (for example, adventure and comedy). 
+Identify clusters of movie watchers within those two genres. People who really like both types of movies, one but not the other, etc. 
+After finishing your clustering, come up with some analysis: imagine that you are a Netflix-type service, 
+and want to help your users find movies they like better. 
+How would you use your clustering results to serve this purpose, or improve your business in general?
+ 
+
+Note: This data set is very large and sparse. 
+There are over 27000 movies rated by over 138000 users, so not every user has rated every movie. 
+It is suggested (and you will likely have to) reduce the number of movies to a smaller number, 
+picking movies that have been rated by a larger portion of users, and potentially even reducing the number based on some metrics as well. 
+You can do this however you want, but document your thought process and try to keep at least the top 1000 movies, 
+but this number is flexible if you can justify why you did it. 
+
+ 
+
+Specific requirements:
+
+Pick 2 different genre pairs to compare, cluster, and write some conclusions about.
+Use k-means clustering.
+Use the knee method (also known as elbow method) to determine your number of clusters.
+Document your steps using pandas/numpy/sklearn as you prepare dataframes and use them so it's easy to follow your methodology.
+If you're a bit lost on what to do, here's a helpful common example of clustering that might help lead you in the right direction:
+
+ 
+
+There are 3 different classes of irises: versicolor, virginica, and setosa, as shown in this image: http://suruchifialoke.com/img/ML/iris.png 
+(Links to an external site.). The different classes of irises have different sepal lengths, petal lengths, and petal widths. 
+If you know an iris' 3 dimensions, you can figure out which type of iris it is. 
+
+ 
+
+One way to classify these irises is by clustering: https://scikit-learn.org/stable/_images/sphx_glr_plot_cluster_iris_002.png 
+(Links to an external site.) .
+
+In this graph, every point represents an individual iris, with those petal/sepal 3 dimensions determining where it is plotted in this graph. 
+This group has already been clustered, and the 3 different colors represent which cluster a particular point belongs to. 
+
+ 
+
+Our movie ratings example is similar. You'll want to have a graph where each point represents a user, and use 2 variables instead of 3: 
+how much they like your first genre, and how much they like your second genre. Once you've plotted all your users on that graph, then you cluster. 
