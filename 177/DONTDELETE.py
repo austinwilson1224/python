@@ -43,6 +43,11 @@ end_corona = dt.datetime(2020,4,24)
 
 # lina jan 22 2121
 
+tickers = open("tickers.txt", "r").read()
+tickers
+tickers = tickers.split("\n")
+tickers
+
 
 pandemics = [sars,swine,ebola,corona]
 ######### get the data for each time period of the corresponding pandemic 
