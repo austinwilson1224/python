@@ -1,7 +1,7 @@
 import datetime as dt  
 import matplotlib.pyplot as plt 
 from matplotlib import style
-from mpl_finance import candlestick_ochl
+# from mpl_finance import candlestick_ochl
 import matplotlib.dates as mdates
 import pandas as pd 
 import pandas_datareader as pdr 
@@ -42,7 +42,7 @@ def get_data_from_yahoo(reload_sp500=False):
         os.makedirs('stock_dfs')
 
     start = dt.datetime(2000,1,1)
-    end = dt.datetime(2020,4,25)
+    end = dt.datetime(2020,11,25)
 
 
     # to test use tickers[:10] so you don't have to wiat for all 500
