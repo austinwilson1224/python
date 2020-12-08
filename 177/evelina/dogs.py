@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import sklearn.feature_extraction.text as sk_text
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report
 
 
 # do we need this?
@@ -17,31 +20,19 @@ dogs = pd.read_csv('dogs.csv')
 
 le = LabelEncoder()
 y = le.fit_transform(dogs.QorS)
-y
-y.shape
 
-
-dogs.shape 
-
-dogs
-
-dogs.Phrase.iloc[0] # 'Why do dogs eat grass'
-
-
-stop_words = ['']  # should we have stop words? 
-
-
+stop_words = ["the","of","to","a","in",""]
 
 # tf-idf vectorizer 
 corpus = dogs.Phrase
-vectorizer = sk_text.TfidfVectorizer(max_features= 500, min_df = 5)
+vectorizer = sk_text.TfidfVectorizer(max_features= 100, min_df = 5, stop_words=stop_words)
 # vectorizer = sk_text.TfidfVectorizer()
 matrix = vectorizer.fit_transform(corpus)
 tfidf_array = matrix.toarray()
 
 # check out the data
-tfidf_array.shape
-tfidf_array[0]
+# tfidf_array.shape
+# tfidf_array[0]
 
 
 
@@ -52,10 +43,8 @@ tfidf_array[0]
 ## first split the data into questions and statements
 x_q = tfidf_array[:20]
 y_q = y[:20]
-#y_q = dogs.QorS[:20]
 x_s = tfidf_array[20:]
 y_s = y[20:]
-# y_s = dogs.QorS[20:]
 
 ## double check the size is correct 
 len(x_q) + len(x_s) == tfidf_array.shape[0]
@@ -80,14 +69,6 @@ x_s_test = x_s[16:]
 y_s_test = y_s[16:]
 
 
-# type(x_s) # numpy array
-# type(y_s) # pandas series 
-
-# x_q_train.shape
-# x_s_train.shape
-# type(x_q_train)
-# type(x_s_train)
-
 x_train = np.vstack([x_q_train, x_s_train])
 x_test = np.vstack([x_q_test, x_s_test])
 
@@ -96,11 +77,7 @@ y_train = np.hstack([y_q_train, y_s_train])
 y_test = np.hstack([y_q_test, y_s_test])
 
 
-# y_train.shape
-# y_test.shape
 
-# y_train.shape[0] == x_train.shape[0]
-# y_test.shape[0] == x_test.shape[0]
 
 
 
@@ -121,3 +98,13 @@ nb.fit(X = x_train, y = y_train)
 pred = nb.predict(X = x_test)
 score = accuracy_score(y_true = y_test, y_pred = pred)
 score
+
+x = confusion_matrix(y_test, pred)
+print(x)
+
+f1 = f1_score(y_test,pred)
+f1
+
+
+report = classification_report(y_test, pred)
+print(report)
