@@ -34,8 +34,8 @@ stop_words = ['']  # should we have stop words?
 
 # tf-idf vectorizer 
 corpus = dogs.Phrase
-# vectorizer = sk_text.TfidfVectorizer(max_features= 500, min_df = 5)
-vectorizer = sk_text.TfidfVectorizer()
+vectorizer = sk_text.TfidfVectorizer(max_features= 500, min_df = 5)
+# vectorizer = sk_text.TfidfVectorizer()
 matrix = vectorizer.fit_transform(corpus)
 tfidf_array = matrix.toarray()
 
@@ -90,12 +90,6 @@ y_s_test = y_s[16:]
 
 x_train = np.vstack([x_q_train, x_s_train])
 x_test = np.vstack([x_q_test, x_s_test])
-
-# x_train.shape
-# x_test.shape
-
-y_q_train.concatenate(y_s_train)
-y_s_train
 
 
 y_train = np.hstack([y_q_train, y_s_train])
