@@ -1,5 +1,6 @@
 import pandas as pd
-
+import tweepy
+import json 
 # importing  the data 
 politifact_fake = pd.read_csv('data/politifact_fake.csv')
 politifact_real = pd.read_csv('data/politifact_real.csv')
@@ -44,24 +45,8 @@ politifact_real.head()
 
 # storing ids as a list
 politifact_fake['tweet_ids_list'] = politifact_fake.tweet_ids.str.split('\t')
-
 politifact_fake['num_tweets'] = politifact_fake.tweet_ids_list.str.len()
 
-
-
-j = 0
-for i in range(politifact_fake.shape[0]):
-    if pd.isna(politifact_fake.tweet_ids.iloc[i]):
-        continue
-    j += 1
-    temp = politifact_fake.num_tweets.iloc[i]
-    print(temp, end=" ")
-
-j #  392 entries 
-
-
-
-politifact_fake.head()
 
 
 
@@ -69,14 +54,9 @@ politifact_fake.head()
 
 test_data = politifact_fake.iloc[100]
 test_tweet_id = test_data.tweet_ids_list[0:20]
-# test_tweet_id3 = test_data.tweet_ids_list[3]
 
-test_tweet_id
 
-# stuff
 
-import tweepy
-import json 
 
 
 
@@ -87,7 +67,7 @@ FROM THE OTHER TUTORIAL  I WAS  DOING
 '''
 
 # https://www.youtube.com/watch?v=ae62pHnBdAg&t=30s
-import tweepy
+
 
 consumer_key = "SfH6LhmYyWltgdlTFuEm3ODvr"
 consumer_secret = "WfzZyfovKaKuhjPV1EGGlTF9ha5zxuTGjIQIgdQ96GicdLyfxY"
@@ -98,27 +78,76 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
-
-
 result = api.statuses_lookup(id_ = test_tweet_id)
-
 for status in result:
     print("The status " + str(status.id) + " is posted by " + status.user.screen_name) 
     print("This status says : \n\n" + status.text, end = "\n\n") 
 
 
-
-
-x = json.loads(result[2])
-result[2].expanded_url
-len(result)
-result3
-
-type(result)
-
+# building the function, this is data for testing a single 
+df_id = test_data.id
+id_list = test_data.tweet_ids_list[:99]
+news_url = test_data.news_url
+title = test_data.title
+result = api.statuses_lookup(id_ = test_tweet_id)
 
 
 
+def get_all_tweets(id_list = id_list, df_id = df_id, news_url = news_url, title = title):
+    # df = pd.DataFrame(columns=["id","username","text"])
+    result = api.statuses_lookup(id_ = id_list)
+    if len(id_list) > 100:
+        id_list = id_list[:99]
+    id_list_result = []
+    username_list = []
+    text_list = []
+    df_id_list = []
+    news_url_list = []
+    title_list = []
+    for status in result:
+        id_ = status.id
+        id_list_result.append(id_)
+
+        username = status.user.screen_name 
+        username_list.append(username)
+
+        text = status.text
+        text_list.append(text)
+
+        df_id_list.append(df_id)
+        news_url_list.append(news_url)
+        title_list.append(title)
+    data = {"df_id": df_id_list, "news_url": news_url_list, "title": title_list, "id": id_list_result, "username": username_list, "text": text_list}
+    return pd.DataFrame(data)
+
+# now traverse the whole data frame and do this for each row ... 
+columns=["df_id","news_url","title", "id", "username", "text"]
+df = pd.DataFrame()
+
+
+politifact_fake_test = politifact_fake[:10]
+politifact_fake_test
+
+
+for row in politifact_fake.iterrows():
+    row = row[1] # because iterrows() gives us a tuple (index, row) 
+    id_ = row.id
+    print(id_)
+    id_list = row.tweet_ids_list
+    if len(id_list) > 100:
+        id_list = id_list[:99]
+    news_url = row.news_url
+    title = row.title
+    # result = api.statuses_lookup(id_ = id_list)
+    df2 = get_all_tweets(id_list = id_list, df_id = df_id, news_url = news_url, title = title)
+    # print(df2.shape)
+    
+    df = df.append(df2, ignore_index= True)
+
+
+df.shape
+
+df.to_csv("politifact_fake_all_data.csv")
 
 
 
@@ -128,26 +157,11 @@ type(result)
 
 
 
-########################### old stuff from testing
-
-user = api.get_user("twitter")
-# print(user.screen_name)
-# print(user.followers_count)
-
-for friend in user.friends():
-    print(friend.screen_name)
 
 
-oscar = api.get_user("OscarTheGrouch")
-trump = api.get_user("DonaldTrump")
-trump.followers_count
-print(oscar.screen_name)
-print(oscar.followers_count)
-
-public_tweets = api.home_timeline()
-public_tweets
-for tweet in public_tweets:
-    print(tweet.text.encode('utf-8'))
 
 
-api.search("covid")
+
+
+
+
