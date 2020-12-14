@@ -1,3 +1,43 @@
+'''
+FIX id column 
+
+specify how many tweets you want to gather (provide new content title and how many tweets they want to collect)
+
+
+add tweetid to dataframe
+
+
+run for real data 
+
+for each tweet indicate if it is a reply or not (attribute is replyToTweet if its not a reply then its null if it has int id then its a reply) use hasattribuite function
+"in_reply_to_status_id_str": null, (example of tweet that is not a reply) -- add one last column to indicate if each tweet is a reply or not
+
+
+REPORT 
+1 -- focus on fake news net , what it is and how we can use this tool, what data this tool gathers looks like
+how we use it
+data format 
+
+2 -- focus on your rampup and small functions you create on top of their tool 
+talk about in code 
+user can speficy the id of any news and number of tweets to gather (use default value for number of tweets) 
+talk about output data format 
+different columns you create and data you gather 
+make more user friendly 
+get attributes we want 
+
+3 -- talk about the dataset you collected using your tool 
+name as fake news net class 
+basic analysis of data collected stats analysis average of tweets for fake news and average for real news 
+for each type of news on politifact and gossip cop average number of fake/real tweets 
+table w/ 4 rows gossip/poitic reral/fake
+
+'''
+
+
+
+
+
 import pandas as pd
 import tweepy
 import json 
@@ -129,6 +169,7 @@ politifact_fake_test = politifact_fake[:10]
 politifact_fake_test
 
 
+
 for row in politifact_fake.iterrows():
     row = row[1] # because iterrows() gives us a tuple (index, row) 
     id_ = row.id
@@ -148,6 +189,8 @@ for row in politifact_fake.iterrows():
 df.shape
 
 df.to_csv("politifact_fake_all_data.csv")
+
+
 
 
 
