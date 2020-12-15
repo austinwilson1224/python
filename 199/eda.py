@@ -140,17 +140,19 @@ result = api.statuses_lookup(id_ = test_tweet_id)
 
 
 def get_all_tweets_single_news_story(row_data, number_of_tweets = False):
-    # , id_list, news_id, news_url, title
 
     # user can specify how many tweets they want to gather for a single news story 
-    id_list = row_data.tweet_ids_list
+    id_list = row_data.tweet_ids_list[:99]
     if number_of_tweets:
         if (len(row_data.tweet_ids) > number_of_tweets + 1):
             id_list = row_data.tweet_ids[:number_of_tweets + 1]
             print(len(id_list))
 
     # this block is to account for request limitations of twitter ... will do later or not at all ;) 
-    # elif len(row_data.tweet_ids) > 100:
+    if len(row_data.tweet_ids) > 100:
+        print("TEST!")
+        # row_data.tweet_ids = row_data.tweet_ids[:99]
+        id_list = row_data.tweet_ids_list[:99]
     #     pass
     #     i = len(row_data.tweet_ids) // 100 
     #     tweet_subset = row_data.tweet_ids[:99]
@@ -199,13 +201,19 @@ def get_all_tweets_single_news_story(row_data, number_of_tweets = False):
     data = {"news_id": news_id_list, "news_url": news_url_list, "title": title_list, "tweet_id": tweet_ids_list, "username": username_list, "text": text_list, "reply": reply_list}
     return pd.DataFrame(data)
 
+test_data = politifact_fake.iloc[11] # has 48 tweets 
 
+test_data
+
+len(test_data.tweet_ids)
 
 ######### testing
 
 test = get_all_tweets_single_news_story(row_data= test_data)#, number_of_tweets = 2)
 test.shape
 test
+test.iloc[0]
+test.iloc[1]
 
 test2 = get_all_tweets_single_news_story(row_data = test_data2, number_of_tweets=10)
 test2
@@ -237,26 +245,19 @@ def aggregate_data(df, name = "temp.csv", number_of_tweets = False):
     result = pd.DataFrame()
     for row in df.iterrows():
         row = row[1] # because iterrows() gives us a tuple (index, row) 
-        news_id = row.id
-        # id_ = row.id
-        # print(id_)
-        id_list = row.tweet_ids_list
-        if len(id_list) > 100:
-            id_list = id_list[:99]
-        news_url = row.news_url
-        title = row.title
-        # result = api.statuses_lookup(id_ = id_list)
         df2 = get_all_tweets_single_news_story(row_data = row, number_of_tweets = number_of_tweets)
-        # print(df2.shape)
-        
-        result = df.append(df2, ignore_index= True)
+        # print(row)
+        result = result.append(df2, ignore_index= True)
     result.to_csv(name)
     return result
-    
 
-test4 = aggregate_data(df = t3st, name = "test.csv", number_of_tweets=10)
 
-test4.iloc[1]
+
+test4 = aggregate_data(df = politifact_fake_test, name = "test.csv", number_of_tweets=10)
+test4.to_csv("test.csv")
+
+
+
 
 
 
@@ -272,24 +273,16 @@ df = pd.DataFrame()
 politifact_fake_test = politifact_fake.sample(4)
 for row in politifact_fake_test.iterrows():
     row = row[1] # because iterrows() gives us a tuple (index, row) 
-    news_id = row.id
-    # id_ = row.id
-    # print(id_)
-    id_list = row.tweet_ids_list
-    if len(id_list) > 100:
-        id_list = id_list[:99]
-    news_url = row.news_url
-    title = row.title
-    # result = api.statuses_lookup(id_ = id_list)
     df2 = get_all_tweets_single_news_story(row_data = row)
-    # print(df2.shape)
     
-    df = df.append(df2, ignore_index= True)
+    df = df.append(df2, ignore_index= False)
 
 
 df.shape
 
-df.to_csv("politifact_fake_all_data.csv")
+df.to_csv("test.csv")
+
+
 
 
 
