@@ -1,10 +1,10 @@
 '''
 FIX id column -- DONE 
 
-specify how many tweets you want to gather (provide new content title and how many tweets they want to collect)
+specify how many tweets you want to gather (provide new content title and how many tweets they want to collect) -- DONE 
 
 
-add tweetid to dataframe
+add tweetid to dataframe -- DONE 
 
 
 run for real data 
@@ -41,6 +41,7 @@ things to pay attention to in the future ie the request quota
 
 
 import pandas as pd
+import numpy as np
 import tweepy
 import json 
 # importing  the data 
@@ -137,8 +138,119 @@ news_url = test_data.news_url
 title = test_data.title
 result = api.statuses_lookup(id_ = test_tweet_id)
 
+def get_tweets_small(row_data, number_of_tweets = False):
+    # attributes destruuctured 
+    news_id = row_data.id 
+    news_url = row_data.news_url
+    title = row_data.title
+    id_list = row_data.tweet_ids
+    # lists to store values in 
+    tweet_ids_list = []
+    username_list = []
+    text_list = []
+    news_id_list = []
+    news_url_list = []
+    title_list = []
+    reply_list = []  
+
+    if number_of_tweets:
+        if (len(row_data.tweet_ids) > number_of_tweets + 1):
+            id_list = row_data.tweet_ids[:number_of_tweets + 1]
+
+    result = api.statuses_lookup(id_ = id_list)
+
+    for status in result:
+        # this is the ID for each individual tweet
+        tweet_id = status.id
+        tweet_ids_list.append(tweet_id)
+        # username for each individual tweet
+        username = status.user.screen_name 
+        username_list.append(username)
+        # text value for each individual tweet
+        text = status.text
+        text_list.append(text)
+        # 
+        reply = status.in_reply_to_status_id_str
+        if reply is None:
+            reply_list.append(False)
+        else:
+            reply_list.append(True)
+        # these are repeated values: news_id, news_url and title will be the same for all tweets associated with a particular news story (row) 
+        news_id_list.append(news_id)
+        news_url_list.append(news_url)
+        title_list.append(title)
+    data = {"news_id": news_id_list, "news_url": news_url_list, "title": title_list, "tweet_id": tweet_ids_list, "username": username_list, "text": text_list, "reply": reply_list}
+    return pd.DataFrame(data)
 
 
+
+
+
+
+
+
+
+
+def get_tweets_large(row_data, number_of_tweets = False):
+
+    # attributes destruuctured 
+    news_id = row_data.id 
+    news_url = row_data.news_url
+    title = row_data.title
+    id_list = row_data.tweet_ids
+    # lists to store values in 
+    tweet_ids_list = []
+    username_list = []
+    text_list = []
+    news_id_list = []
+    news_url_list = []
+    title_list = []
+    reply_list = []
+
+    if number_of_tweets:
+        if (len(row_data.tweet_ids) > number_of_tweets + 1):
+            i = number_of_tweets + 1
+
+    if len(row_data.tweet_ids) > 100:
+        i = len(row_data.tweet_ids) // 100 
+    else:
+        i = 1
+
+    tweet_subset = row_data.tweet_ids[:99]
+    for j in range(i):
+        tweet_subset = row_data.tweet_ids[j*100:j*100+99]
+        result = api.statuses_lookup(tweet_subset)
+
+        for status in result:
+            # this is the ID for each individual tweet
+            tweet_id = status.id
+            tweet_ids_list.append(tweet_id)
+            # username for each individual tweet
+            username = status.user.screen_name 
+            username_list.append(username)
+            # text value for each individual tweet
+            text = status.text
+            text_list.append(text)
+            # 
+            reply = status.in_reply_to_status_id_str
+            if reply is None:
+                reply_list.append(False)
+            else:
+                reply_list.append(True)
+            # these are repeated values: news_id, news_url and title will be the same for all tweets associated with a particular news story (row) 
+            news_id_list.append(news_id)
+            news_url_list.append(news_url)
+            title_list.append(title)
+    data = {"news_id": news_id_list, "news_url": news_url_list, "title": title_list, "tweet_id": tweet_ids_list, "username": username_list, "text": text_list, "reply": reply_list}
+    return pd.DataFrame(data)
+
+
+
+
+
+
+
+# works 
 def get_all_tweets_single_news_story(row_data, number_of_tweets = False):
 
     # user can specify how many tweets they want to gather for a single news story 
@@ -258,17 +370,6 @@ test4.to_csv("test.csv")
 
 
 
-
-
-
-
-
-
-
-
-politifact_fake_test
-
-
 df = pd.DataFrame()
 politifact_fake_test = politifact_fake.sample(4)
 for row in politifact_fake_test.iterrows():
@@ -296,7 +397,6 @@ df.to_csv("test.csv")
 ###### test of logic 
 
 
-import numpy as np
 
 x = np.repeat(1, 120)
 x = range(324)
