@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="center">
+    <h1>SWOL</h1>
+    <form action="/submit" method="post">
+        <label for="test">test</label>
+        <input type="text" name="test" id="">
+
+        <label for="test2">test2</label>
+        <input type="text" name="test2" id="">
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}
